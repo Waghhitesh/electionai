@@ -32,14 +32,22 @@ export default function ChatAssistant() {
         return;
       }
 
-      if (!res.ok) {
-        throw new Error('Failed to fetch response');
-      }
+      if (!res.ok) throw new Error('Failed to fetch response');
 
-      const data = await res.json();
-      setResponse(data);
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder();
+      
+      if (!reader) throw new Error('No reader available');
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        const chunk = decoder.decode(value, { stream: true });
+        setResponse(prev => prev + chunk);
+      }
     } catch (err) {
-      setError('An error occurred while fetching the response. Please make sure the backend is running.');
+      setError('An error occurred while fetching the response. Please check your connection.');
     } finally {
       setLoading(false);
     }

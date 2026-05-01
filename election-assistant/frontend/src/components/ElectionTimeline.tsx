@@ -4,9 +4,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const timelineEvents = [
-  { id: 1, date: 'Oct 15, 2024', title: 'Voter Registration Deadline', description: 'Last day to register to vote for the general election.' },
-  { id: 2, date: 'Oct 25, 2024', title: 'Early Voting Begins', description: 'Early voting locations open across the state.' },
-  { id: 3, date: 'Nov 5, 2024', title: 'Election Day', description: 'Polls are open from 7:00 AM to 8:00 PM.' }
+  { id: 1, date: 'Oct 5, 2026', title: 'Voter Registration Deadline', description: 'Last day to register to vote for the upcoming general election.' },
+  { id: 2, date: 'Oct 20, 2026', title: 'Early Voting Begins', description: 'Early voting locations open for the 2026 midterms.' },
+  { id: 3, date: 'Nov 3, 2026', title: 'Election Day', description: 'Polls are open from 7:00 AM to 8:00 PM for the 2026 general election.' }
 ];
 
 export default function ElectionTimeline() {

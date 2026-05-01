@@ -34,7 +34,14 @@ export default function RootLayout({
           `}
         </Script>
       </head>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white p-4 rounded-xl z-[100] font-bold">
+          Skip to Content
+        </a>
+        <main id="main-content" className="flex-grow">
+          {children}
+        </main>
+      </body>
     </html>
   );
 }

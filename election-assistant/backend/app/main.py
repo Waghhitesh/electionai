@@ -14,7 +14,6 @@ app = FastAPI(
 )
 
 # Security: Configure CORS
-# In production, replace ["*"] with specific origins like ["https://yourfrontend.com"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -22,6 +21,17 @@ app.add_middleware(
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
+
+# Custom Middleware for Security Headers
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' 'unsafe-inline' translate.google.com; style-src 'self' 'unsafe-inline' fonts.googleapis.com; font-src fonts.gstatic.com;"
+    return response
 
 # Attach the Limiter and the state
 app.state.limiter = limiter

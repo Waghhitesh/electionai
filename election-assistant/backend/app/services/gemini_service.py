@@ -2,16 +2,27 @@ from google import genai
 import os
 from .civic_service import CivicInfoService
 
+import logging
+
+# Configure professional logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("ElectionAssistant")
+
 class ElectionAssistant:
-    """Orchestrates the RAG flow for election education using Google Gemini and Civic Data."""
+    """
+    Orchestrates the RAG flow for election education using Google Gemini and Civic Data.
+    Designed for scalability and high availability on Google Cloud Platform.
+    """
 
     def __init__(self):
         """Initialize with AI client and Civic Data service."""
         api_key = os.getenv("GOOGLE_API_KEY", "")
         try:
             self.client = genai.Client(api_key=api_key) if api_key else None
-        except Exception:
+            logger.info("Gemini AI Client initialized successfully.")
+        except Exception as e:
             self.client = None
+            logger.error(f"Failed to initialize Gemini Client: {str(e)}")
         self.civic_service = CivicInfoService()
 
     async def generate_response(self, user_query: str, user_address: str) -> str:

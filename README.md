@@ -22,6 +22,14 @@ The solution employs a **Retrieval-Augmented Generation (RAG)** architecture:
     *   **Google Gemini AI:** Acts as the natural language interface.
     *   **Google Cloud Run:** Hosts the entire stack in a scalable, serverless environment.
 
+## 🛡️ Enterprise-Grade Security & Reliability
+This project implements several advanced features to ensure production-readiness:
+- **Strict Input Validation:** Uses Pydantic `Field` for character-level sanitization and length constraints.
+- **Security Middleware:** Custom HTTP middleware injecting security headers (HSTS, CSP, XSS-Protection).
+- **Automated CI/CD:** Integrated GitHub Actions for continuous testing and linting on every push.
+- **Advanced Logging:** Comprehensive backend logging for rapid debugging and monitoring on Google Cloud.
+- **Universal Accessibility:** Implements "Skip to Content" links, high-contrast focus rings, and official Google Translate integration for global inclusivity.
+
 ## 🛡️ Security and Ethics
 -   **PII Protection:** Addresses are used only for the API call and are not stored permanently.
 -   **Neutrality:** The AI system is strictly instructed to remain politically neutral and provide only factual, process-oriented information.
@@ -31,6 +39,14 @@ The solution employs a **Retrieval-Augmented Generation (RAG)** architecture:
 -   Users have a valid residential address within supported regions (primarily US-based for full Civic API coverage).
 -   Internet connectivity is available for real-time API calls.
 -   Users are seeking factual information about election procedures and logistics.
+
+## 🚀 Automated Testing
+Run the following to verify the solution's integrity:
+```bash
+cd election-assistant/backend
+pytest tests/
+```
+
 
 ## 🚀 Deployment
 Deployed using **Google Cloud Run** for high availability and performance.

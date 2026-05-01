@@ -19,20 +19,32 @@ export default function Home() {
               ELECTION<span className="text-blue-600">AI</span>
             </h1>
           </div>
-          <nav aria-label="Main Navigation">
-            <ul className="flex space-x-8">
-              <li><a href="#timeline" className="text-sm font-bold text-gray-500 hover:text-blue-600 transition-all uppercase tracking-widest">Timeline</a></li>
-              <li><a href="#assistant" className="text-sm font-bold text-gray-500 hover:text-blue-600 transition-all uppercase tracking-widest">Assistant</a></li>
-            </ul>
-          </nav>
+          
+          <div className="flex items-center space-x-6">
+            {/* Google Translate Widget for Accessibility */}
+            <div id="google_translate_element" className="hidden md:block"></div>
+            
+            <nav aria-label="Main Navigation">
+              <ul className="flex space-x-8">
+                <li><a href="#timeline" className="text-sm font-bold text-gray-500 hover:text-blue-600 transition-all uppercase tracking-widest">Timeline</a></li>
+                <li><a href="#assistant" className="text-sm font-bold text-gray-500 hover:text-blue-600 transition-all uppercase tracking-widest">Assistant</a></li>
+              </ul>
+            </nav>
+          </div>
         </div>
       </header>
       
       <main className="max-w-6xl mx-auto px-6 py-20 space-y-32">
         {/* Hero Section */}
         <section className="text-center space-y-8 py-12">
-          <div className="inline-block px-4 py-1.5 mb-6 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 rounded-full text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest animate-float">
-            Next-Gen Civic Intelligence
+          <div className="flex justify-center items-center space-x-4 mb-6">
+            <div className="px-4 py-1.5 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 dark:border-blue-800 rounded-full text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-widest animate-float">
+              Next-Gen Civic Intelligence
+            </div>
+            <div className="flex items-center space-x-1 px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full border border-gray-200 dark:border-gray-700">
+              <img src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png" alt="Google" className="w-3 h-3" />
+              <span className="text-[10px] font-bold text-gray-500">Cloud Powered</span>
+            </div>
           </div>
           <h2 className="text-6xl md:text-8xl font-black text-gray-900 dark:text-white tracking-tighter leading-none">
             Empowering Your <br/>

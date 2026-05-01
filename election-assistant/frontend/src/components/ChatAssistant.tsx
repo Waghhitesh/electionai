@@ -132,8 +132,21 @@ export default function ChatAssistant() {
               <div className="w-2 h-2 bg-blue-500 rounded-full animate-ping"></div>
             </div>
             <h3 className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-4">Official Guidance</h3>
-            <div className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed text-lg font-medium">
+            <div className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed text-lg font-medium mb-6">
               {response}
+            </div>
+            
+            {/* Direct Google Maps Integration */}
+            <div className="flex pt-4 border-t border-blue-200/50 dark:border-blue-700/50">
+              <a 
+                href={`https://www.google.com/maps/search/polling+locations+near+${encodeURIComponent(address)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-sm font-bold text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                <img src="https://www.gstatic.com/images/branding/product/1x/maps_48dp.png" alt="Google Maps" className="w-4 h-4" />
+                <span>View Polling Sites on Google Maps</span>
+              </a>
             </div>
           </motion.div>
         )}

@@ -4,9 +4,12 @@ from .civic_service import CivicInfoService
 
 class ElectionAssistant:
     def __init__(self):
-        # Allow missing key to prevent crash during import
+        # Allow missing key to prevent crash during import/startup
         api_key = os.getenv("GOOGLE_API_KEY", "")
-        self.client = genai.Client(api_key=api_key) if api_key else genai.Client()
+        try:
+            self.client = genai.Client(api_key=api_key) if api_key else None
+        except Exception:
+            self.client = None
         self.civic_service = CivicInfoService()
 
     async def generate_response(self, user_query: str, user_address: str) -> str:
@@ -24,6 +27,9 @@ class ElectionAssistant:
         )
 
         prompt = f"{system_prompt}\n\nUser Question: {user_query}\n\nContext: {context}"
+
+        if not self.client:
+            return "Error: AI Assistant is not configured. Please set the GOOGLE_API_KEY environment variable on the server."
 
         # Step 3: Generate
         response = await self.client.aio.models.generate_content(

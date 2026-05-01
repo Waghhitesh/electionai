@@ -1,26 +1,77 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --primary: #2563eb;
+  --primary-glow: radial-gradient(rgba(37, 99, 235, 0.15), rgba(37, 99, 235, 0));
+  --secondary-glow: radial-gradient(rgba(99, 102, 241, 0.15), rgba(99, 102, 241, 0));
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #020617;
+    --foreground: #f8fafc;
+    --primary-glow: radial-gradient(rgba(37, 99, 235, 0.2), rgba(37, 99, 235, 0));
+    --secondary-glow: radial-gradient(rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0));
   }
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
 }
+
+body::before,
+body::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  opacity: 0.8;
+}
+
+body::before {
+  background: var(--primary-glow);
+  filter: blur(100px);
+  width: 600px;
+  height: 600px;
+  top: -200px;
+  right: -100px;
+}
+
+body::after {
+  background: var(--secondary-glow);
+  filter: blur(80px);
+  width: 500px;
+  height: 500px;
+  bottom: -100px;
+  left: -100px;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+}
+
+.dark .glass-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+

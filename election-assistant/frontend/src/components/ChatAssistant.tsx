@@ -46,52 +46,61 @@ export default function ChatAssistant() {
   };
 
   return (
-    <section aria-labelledby="assistant-heading" className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 max-w-2xl mx-auto mt-8">
-      <header className="flex justify-between items-center mb-6">
-        <h2 id="assistant-heading" className="text-2xl font-bold text-gray-800 dark:text-white">Ask the Election Assistant</h2>
+    <section aria-labelledby="assistant-heading" className="glass-card rounded-2xl p-8 max-w-3xl mx-auto mt-12 transition-all duration-300">
+      <header className="flex justify-between items-center mb-8">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-500/30">
+            <Send className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <h2 id="assistant-heading" className="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight">AI Election Assistant</h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Powered by Google Gemini 2.0</p>
+          </div>
+        </div>
         {(response || query || address) && (
           <button 
             onClick={() => { setQuery(''); setAddress(''); setResponse(''); setError(''); }}
-            className="text-sm text-gray-500 hover:text-red-500 transition-colors"
+            className="px-4 py-2 text-sm font-medium text-gray-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-200"
             aria-label="Clear all inputs and responses"
           >
-            Clear All
+            Clear Thread
           </button>
         )}
       </header>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div role="group" aria-labelledby="location-label">
-          <label id="location-label" htmlFor="address" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Address (for local voting info)</label>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div role="group" aria-labelledby="location-label" className="relative group">
+          <label id="location-label" htmlFor="address" className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Verification Address</label>
           <input
             id="address"
             type="text"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            placeholder="123 Main St, City, State"
-            className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+            placeholder="e.g. 1600 Pennsylvania Ave NW, Washington, DC"
+            className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all group-hover:border-gray-300 dark:group-hover:border-gray-600"
             required
             aria-required="true"
           />
         </div>
-        <div role="group" aria-labelledby="query-label">
-          <label id="query-label" htmlFor="query" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Question</label>
-          <div className="relative">
+        
+        <div role="group" aria-labelledby="query-label" className="relative group">
+          <label id="query-label" htmlFor="query" className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Your Question</label>
+          <div className="relative flex items-center">
             <input
               id="query"
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="e.g., Where do I vote?"
-              className="w-full p-3 pr-12 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+              placeholder="How do I register to vote in this area?"
+              className="w-full p-4 pr-14 rounded-xl border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all group-hover:border-gray-300 dark:group-hover:border-gray-600"
               required
               aria-required="true"
             />
             <button 
               type="submit" 
               disabled={loading}
-              aria-label={loading ? "Sending question..." : "Send question"}
-              className="absolute right-2 top-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition disabled:opacity-50"
+              aria-label={loading ? "Processing..." : "Send Question"}
+              className="absolute right-2 p-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-blue-500/40 disabled:opacity-50 active:scale-95"
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
             </button>
@@ -101,32 +110,54 @@ export default function ChatAssistant() {
 
       <div aria-live="assertive" className="mt-4">
         {error && (
-          <div role="alert" className="p-4 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-lg border border-red-200 dark:border-red-800">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            role="alert" 
+            className="p-4 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-xl border border-red-200 dark:border-red-800 font-medium text-sm"
+          >
             {error}
-          </div>
+          </motion.div>
         )}
       </div>
 
-      <article aria-live="polite" className="mt-6">
+      <article aria-live="polite" className="mt-8">
         {response && (
           <motion.div 
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800"
+            className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/10 dark:to-indigo-900/10 rounded-2xl border border-blue-100 dark:border-blue-800/50 relative overflow-hidden"
           >
-            <h3 className="font-semibold text-blue-800 dark:text-blue-300 mb-2">Assistant Response</h3>
-            <div className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed">
+            <div className="absolute top-0 right-0 p-3">
+              <div className="w-2 h-2 bg-blue-500 rounded-full animate-ping"></div>
+            </div>
+            <h3 className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-4">Official Guidance</h3>
+            <div className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed text-lg font-medium">
               {response}
             </div>
           </motion.div>
         )}
 
         {loading && (
-          <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 flex space-x-2 items-center">
-            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-            <span className="text-sm text-gray-500">Assistant is thinking...</span>
+          <div className="p-8 flex flex-col items-center justify-center space-y-4">
+            <div className="flex space-x-2">
+              <motion.div 
+                animate={{ scale: [1, 1.5, 1] }} 
+                transition={{ repeat: Infinity, duration: 1 }}
+                className="w-3 h-3 bg-blue-600 rounded-full" 
+              />
+              <motion.div 
+                animate={{ scale: [1, 1.5, 1] }} 
+                transition={{ repeat: Infinity, duration: 1, delay: 0.2 }}
+                className="w-3 h-3 bg-blue-600 rounded-full" 
+              />
+              <motion.div 
+                animate={{ scale: [1, 1.5, 1] }} 
+                transition={{ repeat: Infinity, duration: 1, delay: 0.4 }}
+                className="w-3 h-3 bg-blue-600 rounded-full" 
+              />
+            </div>
+            <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">Consulting Civic Data...</span>
           </div>
         )}
       </article>

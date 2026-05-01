@@ -11,26 +11,35 @@ const timelineEvents = [
 
 export default function ElectionTimeline() {
   return (
-    <section className="py-8" aria-labelledby="timeline-heading">
-      <h2 id="timeline-heading" className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Election Timeline</h2>
-      <div className="space-y-6">
+    <section className="py-12" aria-labelledby="timeline-heading">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {timelineEvents.map((event, index) => (
           <motion.div
             key={event.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.2 }}
-            className="flex flex-col sm:flex-row gap-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow border border-gray-200 dark:border-gray-700"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            whileHover={{ y: -10 }}
+            transition={{ delay: index * 0.1, duration: 0.4 }}
+            className="glass-card p-8 rounded-3xl group relative overflow-hidden transition-all duration-300"
             tabIndex={0}
             role="article"
             aria-label={`${event.title} on ${event.date}`}
           >
-            <div className="sm:w-32 font-semibold text-blue-600 dark:text-blue-400">
-              {event.date}
+            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+              <div className="text-6xl font-black text-blue-600 italic">0{index + 1}</div>
             </div>
-            <div>
-              <h3 className="font-bold text-lg text-gray-900 dark:text-white">{event.title}</h3>
-              <p className="text-gray-600 dark:text-gray-300 mt-1">{event.description}</p>
+            
+            <div className="relative z-10 space-y-4">
+              <div className="inline-block px-3 py-1 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg shadow-blue-500/30">
+                {event.date}
+              </div>
+              <h3 className="font-black text-2xl text-gray-900 dark:text-white leading-tight">{event.title}</h3>
+              <p className="text-gray-500 dark:text-gray-400 font-medium leading-relaxed">{event.description}</p>
+            </div>
+            
+            <div className="mt-6 w-12 h-1 bg-blue-600/20 group-hover:w-full transition-all duration-500 rounded-full overflow-hidden">
+              <div className="w-0 group-hover:w-full h-full bg-blue-600 transition-all duration-700"></div>
             </div>
           </motion.div>
         ))}

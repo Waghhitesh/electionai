@@ -20,7 +20,8 @@ export default function ChatAssistant() {
     setResponse('');
 
     try {
-      const res = await fetch('http://localhost:8000/ask', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://electionai-307568988123.us-central1.run.app';
+      const res = await fetch(`${apiUrl}/ask`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: query, address: address })

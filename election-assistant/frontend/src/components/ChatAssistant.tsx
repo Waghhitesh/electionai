@@ -47,10 +47,22 @@ export default function ChatAssistant() {
 
   return (
     <section aria-labelledby="assistant-heading" className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6 max-w-2xl mx-auto mt-8">
-      <h2 id="assistant-heading" className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Ask the Election Assistant</h2>
+      <header className="flex justify-between items-center mb-6">
+        <h2 id="assistant-heading" className="text-2xl font-bold text-gray-800 dark:text-white">Ask the Election Assistant</h2>
+        {(response || query || address) && (
+          <button 
+            onClick={() => { setQuery(''); setAddress(''); setResponse(''); setError(''); }}
+            className="text-sm text-gray-500 hover:text-red-500 transition-colors"
+            aria-label="Clear all inputs and responses"
+          >
+            Clear All
+          </button>
+        )}
+      </header>
+
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="address" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Address (for local voting info)</label>
+        <div role="group" aria-labelledby="location-label">
+          <label id="location-label" htmlFor="address" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Address (for local voting info)</label>
           <input
             id="address"
             type="text"
@@ -62,8 +74,8 @@ export default function ChatAssistant() {
             aria-required="true"
           />
         </div>
-        <div>
-          <label htmlFor="query" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Question</label>
+        <div role="group" aria-labelledby="query-label">
+          <label id="query-label" htmlFor="query" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your Question</label>
           <div className="relative">
             <input
               id="query"
@@ -78,7 +90,7 @@ export default function ChatAssistant() {
             <button 
               type="submit" 
               disabled={loading}
-              aria-label="Send question"
+              aria-label={loading ? "Sending question..." : "Send question"}
               className="absolute right-2 top-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition disabled:opacity-50"
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
@@ -87,33 +99,37 @@ export default function ChatAssistant() {
         </div>
       </form>
 
-      {error && (
-        <div role="alert" className="mt-6 p-4 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-lg border border-red-200 dark:border-red-800">
-          {error}
-        </div>
-      )}
+      <div aria-live="assertive" className="mt-4">
+        {error && (
+          <div role="alert" className="p-4 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-lg border border-red-200 dark:border-red-800">
+            {error}
+          </div>
+        )}
+      </div>
 
-      {response && (
-        <motion.div 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800"
-          role="region"
-          aria-live="polite"
-        >
-          <h3 className="font-semibold text-blue-800 dark:text-blue-300 mb-2">Assistant Response</h3>
-          <div className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap">{response}</div>
-        </motion.div>
-      )}
+      <article aria-live="polite" className="mt-6">
+        {response && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800"
+          >
+            <h3 className="font-semibold text-blue-800 dark:text-blue-300 mb-2">Assistant Response</h3>
+            <div className="text-gray-800 dark:text-gray-200 whitespace-pre-wrap leading-relaxed">
+              {response}
+            </div>
+          </motion.div>
+        )}
 
-      {loading && (
-        <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 flex space-x-2 items-center" aria-live="polite">
-          <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '0ms' }}></div>
-          <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '150ms' }}></div>
-          <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse" style={{ animationDelay: '300ms' }}></div>
-          <span className="sr-only">Loading response...</span>
-        </div>
-      )}
+        {loading && (
+          <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 flex space-x-2 items-center">
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+            <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+            <span className="text-sm text-gray-500">Assistant is thinking...</span>
+          </div>
+        )}
+      </article>
     </section>
   );
 }

@@ -9,5 +9,8 @@ election_assistant = ElectionAssistant()
 @router.post("/ask")
 @limiter.limit("5/minute")
 async def ask_assistant(request: Request, query: UserQuery):
-    # Your RAG pipeline logic here...
+    """
+    Main endpoint for the AI assistant. 
+    Triggers the RAG pipeline to provide election information based on user query and address.
+    """
     return await election_assistant.generate_response(query.text, query.address)
